@@ -11,7 +11,18 @@ spec:
       name: http
       protocol: HTTP
     hosts:
-    - "*"
+    - istiobookinfo.inceptio.cn
+    tls:
+      httpsRedirect: true # sends 301 redirect for http requests
+  - port:
+      number: 443
+      name: https
+      protocol: HTTPS
+    hosts:
+      - istiobookinfo.inceptio.cn
+    tls:
+      mode: SIMPLE # enables HTTPS on this port
+      credentialName: wildcard-certs-tls # fetches certs from Kubernetes secret
 ---
 apiVersion: networking.istio.io/v1alpha3
 kind: VirtualService
@@ -19,7 +30,7 @@ metadata:
   name: bookinfo
 spec:
   hosts:
-  - "*"
+  - istiobookinfo.inceptio.cn
   gateways:
   - bookinfo-gateway
   http:

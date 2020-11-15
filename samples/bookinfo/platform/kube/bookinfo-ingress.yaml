@@ -20,7 +20,10 @@ kind: Ingress
 metadata:
   name: gateway
   annotations:
-    kubernetes.io/ingress.class: "istio"
+    kubernetes.io/ingress.class: istio
+    #istio.ingress.kubernetes.io/ssl-redirect: "true"
+    #istio.ingress.kubernetes.io/configuration-snippet: |
+    #  if ($http_x_forwarded_proto = "http") { return 308 https://$best_http_host$request_uri; }
 spec:
   rules:
   - http:
@@ -45,4 +48,9 @@ spec:
         backend:
           serviceName: productpage
           servicePort: 9080
+    host: istiobookinfo.inceptio.cn
+  tls:
+  - hosts:
+    - istiobookinfo.inceptio.cn
+    secretName: wildcard-certs-tls
 ---

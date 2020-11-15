@@ -503,6 +503,30 @@ spec:
     app.kubernetes.io/instance: kiali-server
 ...
 ---
+apiVersion: extensions/v1beta1
+kind: Ingress
+metadata:
+  annotations:
+    nginx.ingress.kubernetes.io/ingress.class: nginx
+    nginx.ingress.kubernetes.io/ssl-redirect: "true"
+  labels:
+    app: istio
+    component: kiali
+  name: istio-kiali-ing
+spec:
+  rules:
+  - host: istiokiali.inceptio.cn
+    http:
+      paths:
+      - backend:
+          serviceName: kiali
+          servicePort: 20001
+        path: /
+  tls:
+  - hosts:
+    - istiokiali.inceptio.cn
+    secretName: wildcard-certs-tls
+---
 # Source: kiali-server/templates/deployment.yaml
 apiVersion: apps/v1
 kind: Deployment

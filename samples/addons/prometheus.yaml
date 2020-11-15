@@ -368,6 +368,30 @@ spec:
   sessionAffinity: None
   type: "ClusterIP"
 ---
+apiVersion: extensions/v1beta1
+kind: Ingress
+metadata:
+  annotations:
+    nginx.ingress.kubernetes.io/ingress.class: nginx
+    nginx.ingress.kubernetes.io/ssl-redirect: "true"
+  labels:
+    app: istio
+    component: prometheus
+  name: istio-prometheus-ing
+spec:
+  rules:
+  - host: istioprometheus.inceptio.cn
+    http:
+      paths:
+      - backend:
+          serviceName: prometheus
+          servicePort: 9090
+        path: /
+  tls:
+  - hosts:
+    - istioprometheus.inceptio.cn
+    secretName: wildcard-certs-tls
+---
 # Source: prometheus/templates/server-deployment.yaml
 apiVersion: apps/v1
 kind: Deployment
