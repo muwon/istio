@@ -1,0 +1,48 @@
+#apiVersion: networking.istio.io/v1alpha3
+#kind: Gateway
+#metadata:
+#  name: movieapp-gateway
+#spec:
+#  selector:
+#    istio: ingressgateway # use istio default controller
+#  servers:
+#  - port:
+#      number: 80
+#      name: http
+#      protocol: HTTP
+#    hosts:
+#    - movieapp.inceptio.cn
+#    tls:
+#      httpsRedirect: true # sends 301 redirect for http requests
+#  - port:
+#      number: 443
+#      name: https
+#      protocol: HTTPS
+#    hosts:
+#      - movieapp.inceptio.cn
+#    tls:
+#      mode: SIMPLE # enables HTTPS on this port
+#      credentialName: wildcard-certs-tls # fetches certs from Kubernetes secret
+---
+apiVersion: networking.istio.io/v1alpha3
+kind: VirtualService
+metadata:
+  name: movieapp
+spec:
+  hosts:
+  - movieapp.inceptio.cn
+  gateways:
+  - infraapps-gateway.istio-system.svc.cluster.local
+  http:
+  - match:
+    - uri:
+        exact: /status
+    - uri:
+        prefix: /v1/comment
+    - uri:
+        prefix: /v1/rating
+    route:
+    - destination:
+        host: movieapp
+        port:
+          number: 8080

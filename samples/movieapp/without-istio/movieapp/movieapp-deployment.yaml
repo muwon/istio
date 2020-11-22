@@ -1,0 +1,22 @@
+apiVersion: apps/v1
+kind: Deployment
+metadata:
+  name: movieapp-deployment
+  labels:
+    app: movieapp
+spec:
+  replicas: 1
+  selector:
+    matchLabels:
+      app: movieapp
+  template:
+    metadata:
+      labels:
+        app: movieapp
+    spec:
+      containers:
+      - name: movieapp
+        image: registry-vpc.cn-hangzhou.aliyuncs.com/inceptio-prod/infra_movieapp:1.0.0
+        imagePullPolicy: Always
+        ports:
+        - containerPort: 8080
