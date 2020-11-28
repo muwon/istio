@@ -4,21 +4,24 @@ metadata:
   name: moviecstar
   labels:
     app: moviecstar
+    version: v1
 spec:
   serviceName: moviecstar
   replicas: 3
   selector:
     matchLabels:
       app: moviecstar
+      version: v1
   template:
     metadata:
       labels:
         app: moviecstar
+        version: v1
     spec:
       terminationGracePeriodSeconds: 1800
       containers:
       - name: moviecstar
-        image: registry-vpc.cn-hangzhou.aliyuncs.com/inceptio-prod/infra_cassandra:v13
+        image: registry-vpc.cn-hangzhou.aliyuncs.com/inceptio-prod/infra_cassandra:v13-1.0.1
         imagePullPolicy: Always
         ports:
         - containerPort: 7000

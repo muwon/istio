@@ -3,9 +3,18 @@ kind: Service
 metadata:
   labels:
     app: moviecstar
+    service: moviecstar
   name: moviecstar
 spec:
+  clusterIP: None
   ports:
+  - port: 7000
+    name: intra-node
+  - port: 7001
+    name: tls-intra-node
+  - port: 7199
+    name: jmx
   - port: 9042
+    name: cql
   selector:
     app: moviecstar
