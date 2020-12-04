@@ -1,29 +1,30 @@
 dashboards:
+  istio-extension-dashboard: 13277
   istio-mesh-dashboard: 7639
   istio-performance-dashboard: 11829
   istio-service-dashboard: 7636
   istio-workload-dashboard: 7630
-  mixer-dashboard: 7642
   pilot-dashboard: 7645
 dependencies:
   api:
-    sha: 64b3eaad773f8ba2d68a38e23a9e1c9bd5ca9324
+    sha: fa4ee46c5dc223546650b893b882b42216db1e69
   client-go:
-    sha: d02901264fdc14b83a495ee3c58c095452c6fe70
+    goversionenabled: true
+    sha: 5979b566b3db5babb8218e8afa851dc712adaa89
   envoy:
-    sha: 5ff81ddc86f4f789310aa91bee918af27897adfb
+    sha: cd87e827e33cc92d9c2d849f786822a0d407803f
   gogo-genproto:
-    sha: 0072067a3d89b91b7ab13d5dbebf97d532796208
+    sha: 4dfda01a154c886f3472e87cc6eddd95dc5651ef
   istio:
-    sha: 4ce531ff1823a3abb9f42fa9d35523b0436e2d04
+    sha: c87a4c874df27e37a3e6c25fa3d1ef6279685d23
   pkg:
-    sha: d97bc429be20d11794abbf026ccaa5388a921667
+    sha: c861803834b2157067b446ab0f22b130d7c67825
   proxy:
-    sha: 5694187abcc4aea15a701bff18858a2e9216e609
+    sha: ed0e581060499e4ed0f68925fbbc8f2f12340c9a
   test-infra:
-    sha: 5e76d071441f5f0805f6ecbd70051c02a1b7fb8b
+    sha: 572563b3f46949c508c5565133ce8b29b77320e3
   tools:
-    sha: ed08f2419c63906baa82e0c20a2a09f25ccd8dda
+    sha: aba35eaf3c3ece8d82fe80fb1186e1a94b340f54
 docker: docker.io/istio
 ignoreVulnerability: false
-version: 1.7.4
+version: 1.8.0

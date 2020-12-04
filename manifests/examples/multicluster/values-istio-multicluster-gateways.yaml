@@ -21,8 +21,6 @@ spec:
         globalDomainSuffix: global
         includeEnvoyFilter: true
 
-      controlPlaneSecurityEnabled: true
-
     gateways:
       istio-egressgateway:
         env:

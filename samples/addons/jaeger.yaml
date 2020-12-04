@@ -20,7 +20,7 @@ spec:
     spec:
       containers:
         - name: jaeger
-          image: "docker.io/jaegertracing/all-in-one:1.18"
+          image: "docker.io/jaegertracing/all-in-one:1.20"
           env:
             - name: BADGER_EPHEMERAL
               value: "false"
@@ -71,30 +71,6 @@ spec:
   selector:
     app: jaeger
 ---
-apiVersion: extensions/v1beta1
-kind: Ingress
-metadata:
-  annotations:
-    nginx.ingress.kubernetes.io/ingress.class: nginx
-    nginx.ingress.kubernetes.io/ssl-redirect: "true"
-  labels:
-    app: istio
-    component: tracing
-  name: istio-tracing-ing
-spec:
-  rules:
-  - host: istiotracing.inceptio.cn
-    http:
-      paths:
-      - backend:
-          serviceName: tracing
-          servicePort: 80
-        path: /
-  tls:
-  - hosts:
-    - istiotracing.inceptio.cn
-    secretName: wildcard-certs-tls
----
 # Jaeger implements the Zipkin API. To support swapping out the tracing backend, we use a Service named Zipkin.
 apiVersion: v1
 kind: Service
@@ -108,5 +84,26 @@ spec:
     - port: 9411
       targetPort: 9411
       name: http-query
+  selector:
+    app: jaeger
+---
+apiVersion: v1
+kind: Service
+metadata:
+  name: jaeger-collector
+  namespace: istio-system
+  labels:
+    app: jaeger
+spec:
+  type: ClusterIP
+  ports:
+  - name: jaeger-collector-http
+    port: 14268
+    targetPort: 14268
+    protocol: TCP
+  - name: jaeger-collector-grpc
+    port: 14250
+    targetPort: 14250
+    protocol: TCP
   selector:
     app: jaeger
