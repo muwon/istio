@@ -1,0 +1,29 @@
+#
+## THIS IS A SHARED GATEWAY
+#
+apiVersion: networking.istio.io/v1alpha3
+kind: Gateway
+metadata:
+  name: dev-gateway-internal
+  namespace: istio-system
+spec:
+  selector:
+    istio: ingressgateway-internal # use istio default controller
+  servers:
+  - port:
+      number: 80
+      name: http
+      protocol: HTTP
+    hosts:
+    - "*.dev.inceptio.cn"
+    tls:
+      httpsRedirect: true # sends 301 redirect for http requests
+  - port:
+      number: 443
+      name: https
+      protocol: HTTPS
+    hosts:
+      - "*.dev.inceptio.cn"
+    tls:
+      mode: SIMPLE # enables HTTPS on this port
+      credentialName: wildcard-certs-tls # fetches certs from Kubernetes secret

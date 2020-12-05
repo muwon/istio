@@ -1,7 +1,11 @@
+#
+## THIS IS A SHARED GATEWAY
+#
 apiVersion: networking.istio.io/v1alpha3
 kind: Gateway
 metadata:
-  name: bookinfo-gateway
+  name: infraapps-gateway
+  namespace: istio-system
 spec:
   selector:
     istio: ingressgateway # use istio default controller
@@ -11,17 +15,29 @@ spec:
       name: http
       protocol: HTTP
     hosts:
-    - "*"
+    - "*.inceptio.cn"
+    tls:
+      httpsRedirect: true # sends 301 redirect for http requests
+  - port:
+      number: 443
+      name: https
+      protocol: HTTPS
+    hosts:
+      - "*.inceptio.cn"
+    tls:
+      mode: SIMPLE # enables HTTPS on this port
+      credentialName: wildcard-certs-tls # fetches certs from Kubernetes secret
 ---
 apiVersion: networking.istio.io/v1alpha3
 kind: VirtualService
 metadata:
   name: bookinfo
+  namespace: istio-sample
 spec:
   hosts:
-  - "*"
+  - istiobookinfo.inceptio.cn
   gateways:
-  - bookinfo-gateway
+  - infraapps-gateway.istio-system.svc.cluster.local
   http:
   - match:
     - uri:

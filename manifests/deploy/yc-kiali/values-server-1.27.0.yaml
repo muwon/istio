@@ -1,0 +1,149 @@
+nameOverride: "kiali"
+fullnameOverride: "kiali"
+
+# This is required for "openshift" auth strategy.
+# You have to know ahead of time what your Route URL will be because
+# right now the helm chart can't figure this out at runtime (it would
+# need to wait for the Kiali Route to be deployed and for OpenShift
+# to start it up). If someone knows how to update this helm chart to
+# do this, a PR would be welcome.
+kiali_route_url: ""
+
+#
+# Settings that mimic the Kiali CR which are placed in the ConfigMap.
+# Note that only those values used by the Helm Chart will be here.
+#
+
+istio_namespace: "istio-system" # default is where Kiali is installed
+
+auth:
+  openid: {}
+  openshift: {}
+  strategy: "anonymous"
+
+deployment:
+  # This only limits what Kiali will attempt to see, but Kiali Service Account has permissions to see everything.
+  # For more control over what the Kial Service Account can see, use the Kiali Operator
+  accessible_namespaces:
+  - "**"
+  additional_service_yaml: {}
+  affinity:
+    node: {}
+    pod: {}
+    pod_anti: {}
+  custom_dashboards:
+    excludes: ['']
+    includes: ['*']
+  image_name: registry-vpc.cn-hangzhou.aliyuncs.com/inceptio/kiali
+  image_pull_policy: "Always"
+  image_pull_secrets: []
+  image_version: v1.27.0
+  ingress_enabled: true
+  logger:
+    log_format: "text"
+    log_level: "debug"
+    time_field_format: "2006-01-02T15:04:05Z07:00"
+    sampler_rate: "1"
+  node_selector: {}
+  override_ingress_yaml:
+    metadata:
+      annotations:
+        nginx.ingress.kubernetes.io/ingress.class: nginx
+        nginx.ingress.kubernetes.io/ssl-redirect: "true"
+    spec:
+      rules:
+      - host: istiokiali.dev.inceptio.cn
+        http:
+          paths:
+          - backend:
+              serviceName: kiali
+              servicePort: 20001
+            path: /
+      tls:
+      - hosts:
+        - istiokiali.dev.inceptio.cn
+        secretName: wildcard-certs-tls
+  pod_annotations: {}
+  pod_labels: {}
+  priority_class_name: ""
+  replicas: 1
+  resources: {}
+  secret_name: "kiali"
+  service_annotations: {}
+  service_type: ""
+  tolerations: []
+  version_label: v1.27.0
+  view_only_mode: false
+
+external_services:
+  custom_dashboards:
+    enabled: true
+    namespace_label: "istio-system"
+  grafana:
+    auth:
+      ca_file: ""
+      insecure_skip_verify: false
+      password: ""
+      token: "eyJrIjoiRUUzVWQxQmRkMm01Z3AwTHo4czY1WjQ2V2NFT1g3SVMiLCJuIjoiZ3JhZmFuYS1iYWNrdXAiLCJpZCI6MX0="
+      type: "bearer" 
+      use_kiali_token: false
+      username: ""
+    dashboards:
+    - name: "Istio Service Dashboard"
+      variables:
+        namespace: "var-namespace"
+        service: "var-service"
+    - name: "Istio Workload Dashboard"
+      variables:
+        namespace: "var-namespace"
+        workload: "var-workload"
+    enabled: true 
+    in_cluster_url: "http://monitoring-ui-grafana.monitoring"
+    url: "https://grafana.dev.inceptio.cn"
+  prometheus:
+    auth:
+      ca_file: ""
+      insecure_skip_verify: false
+      password: ""
+      token: ""
+      type: "none"
+      use_kiali_token: false
+      username: ""
+    url: "http://monitoring-prometheus-server.monitoring"
+  istio:
+    config_map_name: "istio"
+    istio_identity_domain: "svc.cluster.local"
+    istio_injection_annotation: "sidecar.istio.io/inject"
+    istio_sidecar_annotation: "sidecar.istio.io/status"
+    url_service_version: "http://istiod:15014/version"
+  tracing:
+    auth:
+      ca_file: ""
+      insecure_skip_verify: false
+      password: ""
+      token: ""
+      type: "none"
+      use_kiali_token: false
+      username: ""
+    enabled: true
+    in_cluster_url: "http://tracing/jaeger"
+    namespace_selector: true
+    url: "https://istiotracing.dev.inceptio.cn"
+    whitelist_istio_system:
+    - jaeger-query
+    - istio-ingressgateway
+    - istio-ingressgateway-internal
+
+identity: {}
+  #cert_file:
+  #private_key_file:
+
+login_token:
+  signing_key: ""
+
+server:
+  port: 20001
+  metrics_enabled: true
+  metrics_port: 9090
+  web_root: ""
+
