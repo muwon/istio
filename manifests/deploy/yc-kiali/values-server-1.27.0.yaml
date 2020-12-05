@@ -84,7 +84,7 @@ external_services:
       ca_file: ""
       insecure_skip_verify: false
       password: ""
-      token: "eyJrIjoiRUUzVWQxQmRkMm01Z3AwTHo4czY1WjQ2V2NFT1g3SVMiLCJuIjoiZ3JhZmFuYS1iYWNrdXAiLCJpZCI6MX0="
+      token: "TOKEN"
       type: "bearer" 
       use_kiali_token: false
       username: ""

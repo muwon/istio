@@ -7,7 +7,7 @@ spec:
   hosts:
   - istiobookinfo.dev.inceptio.cn
   gateways:
-  - dev-gateway-external.istio-system.svc.cluster.local
+  - dev-gateway-internal.istio-system.svc.cluster.local
   http:
   - match:
     - uri:
