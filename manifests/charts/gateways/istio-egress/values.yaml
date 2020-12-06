@@ -111,7 +111,7 @@ gateways:
 revision: ""
 
 # For Helm compatibility.
-ownerName: ""
+ownerName: "istiocontrolplane"
 
 global:
   # set the default set of namespaces to which services, service entries, virtual services, destination
@@ -297,6 +297,7 @@ global:
 
 meshConfig:
   enablePrometheusMerge: true
+  trustDomain: "cluster.local"
   defaultConfig:
     proxyMetadata: {}
     tracing:
