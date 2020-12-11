@@ -104,7 +104,7 @@ metadata:
   name: istio-grafana-ing
 spec:
   rules:
-    - host: istiografanaluci4.inceptio.cn
+    - host: istiografana.dev.inceptio.cn
       http:
         paths:
           - backend:
@@ -113,7 +113,7 @@ spec:
             path: /
   tls:
     - hosts:
-        - istiografanaluci4.inceptio.cn
+        - istiografana.dev.inceptio.cn
       secretName: wildcard-certs-tls
 ---
 # Source: grafana/templates/deployment.yaml

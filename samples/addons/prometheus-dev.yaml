@@ -388,7 +388,7 @@ metadata:
   name: istio-prometheus-ing
 spec:
   rules:
-    - host: istioprometheusluci4.inceptio.cn
+    - host: istioprometheus.dev.inceptio.cn
       http:
         paths:
           - backend:
@@ -397,7 +397,7 @@ spec:
             path: /
   tls:
     - hosts:
-        - istioprometheusluci4.inceptio.cn
+        - istioprometheus.dev.inceptio.cn
       secretName: wildcard-certs-tls
 ---
 # Source: prometheus/templates/server/deploy.yaml

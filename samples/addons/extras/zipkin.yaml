@@ -60,3 +60,27 @@ spec:
       name: http-query
   selector:
     app: zipkin
+---
+apiVersion: extensions/v1beta1
+kind: Ingress
+metadata:
+  annotations:
+    nginx.ingress.kubernetes.io/ingress.class: nginx
+    nginx.ingress.kubernetes.io/ssl-redirect: "true"
+  labels:
+    app: istio
+    component: zipkin
+  name: istio-zipkin-ing
+spec:
+  rules:
+    - host: istiozipkin.inceptio.cn
+      http:
+        paths:
+          - backend:
+              serviceName: zipkin
+              servicePort: 9411
+            path: /
+  tls:
+    - hosts:
+        - istiozipkin.inceptio.cn
+      secretName: wildcard-certs-tls

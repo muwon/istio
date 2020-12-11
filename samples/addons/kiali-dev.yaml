@@ -70,7 +70,7 @@ data:
         - ""
         includes:
         - '*'
-      image_name: registry-vpc.cn-hangzhou.aliyuncs.com/inceptio-prod/kiali
+      image_name: registry-vpc.cn-hangzhou.aliyuncs.com/inceptio/kiali
       image_pull_policy: Always
       image_pull_secrets: []
       image_version: v1.26.0
@@ -95,10 +95,6 @@ data:
     external_services:
       custom_dashboards:
         enabled: true
-      grafana:
-        url: "https://istiografanaluci4.inceptio.cn"
-      tracing:
-        url: "https://istiojaeger.inceptio.cn"
     identity:
       cert_file: ""
       private_key_file: ""
@@ -372,7 +368,7 @@ metadata:
   name: istio-kiali-ing
 spec:
   rules:
-    - host: istiokialiluci4.inceptio.cn
+    - host: istiokiali.dev.inceptio.cn
       http:
         paths:
           - backend:
@@ -381,7 +377,7 @@ spec:
             path: /
   tls:
     - hosts:
-        - istiokialiluci4.inceptio.cn
+        - istiokiali.dev.inceptio.cn
       secretName: wildcard-certs-tls
 ---
 # Source: kiali-server/templates/deployment.yaml
@@ -428,7 +424,7 @@ spec:
     spec:
       serviceAccountName: kiali
       containers:
-      - image: "registry-vpc.cn-hangzhou.aliyuncs.com/inceptio-prod/kiali:v1.26.0"
+      - image: "registry-vpc.cn-hangzhou.aliyuncs.com/inceptio/kiali:v1.26.0"
         imagePullPolicy: Always
         name: kiali
         command:
